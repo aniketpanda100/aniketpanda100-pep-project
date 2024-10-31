@@ -62,5 +62,14 @@ public class MessageService {
     public List<Message> getAllUserMessages(int id) {
         return messageDAO.getAllUserMessages(id);
     }
+
+    /**
+     * Use the MessageDAO to retrieve message by its id.
+     *
+     * @return message by id
+     */
+    public Message getMessageById(int id) {
+        return messageDAO.getMessageById(id);
+    }
   
 }

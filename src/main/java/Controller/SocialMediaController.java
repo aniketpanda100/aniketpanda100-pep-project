@@ -40,6 +40,7 @@ public class SocialMediaController {
         app.post("/messages", this::postMessageHandler);
         app.get("/messages", this::getAllMessagesHandler);
         app.get("/accounts/{account_id}/messages", this::getAllUserMessagesHandler);
+        app.get("/messages/{message_id}", this::getMessagesByIdHandler);
 
         return app;
     }
@@ -101,6 +102,17 @@ public class SocialMediaController {
         int id = Integer.parseInt(ctx.pathParam("account_id"));
         List<Message> messages = messageService.getAllUserMessages(id);
         ctx.json(messages);
+    }
+
+    /**
+     * Handler to retrieve a message by its id.
+     * @param ctx the context object handles information HTTP requests and generates responses within Javalin. It will
+     *            be available to this method automatically thanks to the app.put method.
+     */
+    private void getMessagesByIdHandler(Context ctx) {
+        int id = Integer.parseInt(ctx.pathParam("message_id"));
+        Message message = messageService.getMessageById(id);
+        if (message != null) ctx.json(message);
     }
 
 
