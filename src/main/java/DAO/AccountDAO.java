@@ -58,4 +58,30 @@ public class AccountDAO {
         return null;
     }
 
+    /**
+     * Retrieve an account from the account table, identified username and password.
+     * @return an account identified by username and password.
+     */
+    public Account authenticateAccount(String username, String password){
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            String sql = "select * from account where username=? and password=?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()){
+                Account account = new Account(rs.getInt("account_id"),
+                        rs.getString("username"),
+                        rs.getString("password"));
+                return account;
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
 }
