@@ -1,5 +1,7 @@
 package Controller;
 
+import java.util.List;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import io.javalin.Javalin;
@@ -36,6 +38,8 @@ public class SocialMediaController {
         app.post("/register", this::postAccountHandler);
         app.post("/login", this::postLoginHandler);
         app.post("/messages", this::postMessageHandler);
+        app.get("/messages", this::getAllMessagesHandler);
+        app.get("/accounts/{account_id}/messages", this::getAllUserMessagesHandler);
 
         return app;
     }
@@ -76,6 +80,27 @@ public class SocialMediaController {
         }else{
             ctx.status(400);
         }
+    }
+
+    /**
+     * Handler to retrieve all messages.
+     * @param ctx the context object handles information HTTP requests and generates responses within Javalin. It will
+     *            be available to this method automatically thanks to the app.put method.
+     */
+    private void getAllMessagesHandler(Context ctx) {
+        List<Message> messages = messageService.getAllMessages();
+        ctx.json(messages);
+    }
+
+    /**
+     * Handler to retrieve all messages by a user.
+     * @param ctx the context object handles information HTTP requests and generates responses within Javalin. It will
+     *            be available to this method automatically thanks to the app.put method.
+     */
+    private void getAllUserMessagesHandler(Context ctx) {
+        int id = Integer.parseInt(ctx.pathParam("account_id"));
+        List<Message> messages = messageService.getAllUserMessages(id);
+        ctx.json(messages);
     }
 
 

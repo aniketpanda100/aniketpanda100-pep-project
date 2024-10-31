@@ -2,6 +2,9 @@ package Service;
 
 import Model.Account;
 import Model.Message;
+
+import java.util.List;
+
 import DAO.AccountDAO;
 import DAO.MessageDAO;
 
@@ -40,6 +43,24 @@ public class MessageService {
         if (text == null || text.length() < 1 || text.length() > 255) return null;
         if (accountDAO.getAccountById(message.getPosted_by()) == null) return null;
         return messageDAO.insertMessage(message);
+    }
+
+    /**
+     * Use the MessageDAO to retrieve all messages.
+     *
+     * @return all messages
+     */
+    public List<Message> getAllMessages() {
+        return messageDAO.getAllMessages();
+    }
+
+    /**
+     * Use the MessageDAO to retrieve all messages by a user.
+     *
+     * @return all messages by a user
+     */
+    public List<Message> getAllUserMessages(int id) {
+        return messageDAO.getAllUserMessages(id);
     }
   
 }
