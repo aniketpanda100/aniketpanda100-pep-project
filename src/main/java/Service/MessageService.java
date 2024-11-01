@@ -8,10 +8,6 @@ import java.util.List;
 import DAO.AccountDAO;
 import DAO.MessageDAO;
 
-/*
- * Service Layer for messages. Sits between controller and DAOs and relays
- * data back and forth.
- */
 public class MessageService {
     private MessageDAO messageDAO;
     private AccountDAO accountDAO;

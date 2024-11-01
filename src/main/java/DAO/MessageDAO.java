@@ -124,7 +124,6 @@ public class MessageDAO {
     public boolean deleteMessageById(int id){
         Connection connection = ConnectionUtil.getConnection();
         try {
-            System.out.println("INSIDE TRY " + id);
             String sql = "delete from message where message_id=?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -147,7 +146,6 @@ public class MessageDAO {
     public boolean updateMessage(int id, String text){
         Connection connection = ConnectionUtil.getConnection();
         try {
-            System.out.println(text + " " + id);
             String sql = "update message set message_text=? where message_id=?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -161,7 +159,6 @@ public class MessageDAO {
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        System.out.println("OUTSIDE TRY");
         return false;
     }
     

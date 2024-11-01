@@ -152,7 +152,6 @@ public class SocialMediaController {
         String text = ctx.body();
         text = text.substring(18,text.length()-3);
 
-        System.out.println("MAP: " + text);
         Message message = messageService.updateMessage(id, text);
 
         if(message!=null){
