@@ -111,35 +111,31 @@ public class MessageDAO {
 
     /**
      * Delete a message from the message table, identified by its id.
-     * @return a message identified by id.
+     * @return boolean true/false for success/error.
      */
-    public Message deleteMessageById(int id){
+    public boolean deleteMessageById(int id){
         Connection connection = ConnectionUtil.getConnection();
         try {
+            System.out.println("INSIDE TRY " + id);
             String sql = "delete from message where message_id=?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setInt(1, id);
 
             preparedStatement.executeUpdate();
-            ResultSet rs = preparedStatement.getGeneratedKeys();
-            if(rs.next()){
-                Message message = new Message(id, 
-                rs.getInt("posted_by"), rs.getString("message_text"), 
-                rs.getLong("time_posted_epoch"));
-                return message;
-            }
+            return true;
+
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        return null;
+        return false;
     }
 
     /**
      * Update message identified by id with provided text.
-     * @return the updated message.
+     * @return boolean true/false for success/error.
      */
-    public Message updateMessage(int id, String text){
+    public boolean updateMessage(int id, String text){
         Connection connection = ConnectionUtil.getConnection();
         try {
             System.out.println(text + " " + id);
@@ -151,19 +147,13 @@ public class MessageDAO {
             preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
-            ResultSet rs = preparedStatement.getGeneratedKeys();
-            System.out.println("NOW: ");
-            if(rs.next()){
-                Message message = new Message(rs.getInt("message_id"), rs.getInt("posted_by"),
-                rs.getString("message_text"), rs.getLong("time_posted_epoch"));
-                System.out.println("POSTEDBY: " + rs.getInt("posted_by"));
-                return message;
-            }
+            return true;
+         
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        System.out.println("Outside try.");
-        return null;
+        System.out.println("OUTSIDE TRY");
+        return false;
     }
     
 }

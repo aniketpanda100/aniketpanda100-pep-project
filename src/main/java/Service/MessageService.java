@@ -78,7 +78,9 @@ public class MessageService {
      * @return message by id
      */
     public Message deleteMessageById(int id) {
-        return messageDAO.deleteMessageById(id);
+        Message message = getMessageById(id);
+        if (! messageDAO.deleteMessageById(id)) return null;
+        return message;
     }
 
     /**
@@ -87,12 +89,11 @@ public class MessageService {
      * @return updated message by id
      */
     public Message updateMessage(int id, String text) {
-        if (text == null || text.length() < 1 || text.length() > 255) {System.out.println("LEN"); return null;}
-        if (messageDAO.getMessageById(id) == null) {System.out.println("ID"); return null;}
-        System.out.println("Test");
-        Message msg = messageDAO.updateMessage(id, text);
-        System.out.println(msg);
-        return msg;
+        if (text == null || text.length() < 1 || text.length() > 255) return null;
+        if (messageDAO.getMessageById(id) == null) return null;
+        if(! messageDAO.updateMessage(id, text)) return null;
+
+        return getMessageById(id);
     }
   
 }
