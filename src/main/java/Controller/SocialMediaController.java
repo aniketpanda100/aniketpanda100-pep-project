@@ -40,7 +40,9 @@ public class SocialMediaController {
         app.post("/messages", this::postMessageHandler);
         app.get("/messages", this::getAllMessagesHandler);
         app.get("/accounts/{account_id}/messages", this::getAllUserMessagesHandler);
-        app.get("/messages/{message_id}", this::getMessagesByIdHandler);
+        app.get("/messages/{message_id}", this::getMessageByIdHandler);
+        app.delete("/messages/{message_id}", this::deleteMessageByIdHandler);
+        app.patch("/messages/{message_id}", this::updateMessageHandler);
 
         return app;
     }
@@ -109,12 +111,41 @@ public class SocialMediaController {
      * @param ctx the context object handles information HTTP requests and generates responses within Javalin. It will
      *            be available to this method automatically thanks to the app.put method.
      */
-    private void getMessagesByIdHandler(Context ctx) {
+    private void getMessageByIdHandler(Context ctx) {
         int id = Integer.parseInt(ctx.pathParam("message_id"));
         Message message = messageService.getMessageById(id);
         if (message != null) ctx.json(message);
     }
 
+    /**
+     * Handler to delete a message by its id.
+     * @param ctx the context object handles information HTTP requests and generates responses within Javalin. It will
+     *            be available to this method automatically thanks to the app.put method.
+     */
+    private void deleteMessageByIdHandler(Context ctx) {
+        int id = Integer.parseInt(ctx.pathParam("message_id"));
+        Message message = messageService.deleteMessageById(id);
+        if (message != null) ctx.json(message);
+    }
 
+    /**
+     * Handler to update a message by its id.
+     * @param ctx the context object handles information HTTP requests and generates responses within Javalin. It will
+     *            be available to this method automatically thanks to the app.put method.
+     */
+    private void updateMessageHandler(Context ctx) {
+        int id = Integer.parseInt(ctx.pathParam("message_id"));
+        String text = ctx.body();
+        text = text.substring(18,text.length()-3);
+
+        System.out.println("MAP: " + text);
+        Message message = messageService.updateMessage(id, text);
+
+        if(message!=null){
+            ctx.json(message);
+        }else{
+            ctx.status(400);
+        }
+    }
 
 }

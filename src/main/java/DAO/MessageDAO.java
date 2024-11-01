@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.Account;
 import Model.Message;
 import Util.ConnectionUtil;
 
@@ -107,6 +106,63 @@ public class MessageDAO {
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
+        return null;
+    }
+
+    /**
+     * Delete a message from the message table, identified by its id.
+     * @return a message identified by id.
+     */
+    public Message deleteMessageById(int id){
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            String sql = "delete from message where message_id=?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            if(rs.next()){
+                Message message = new Message(id, 
+                rs.getInt("posted_by"), rs.getString("message_text"), 
+                rs.getLong("time_posted_epoch"));
+                return message;
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Update message identified by id with provided text.
+     * @return the updated message.
+     */
+    public Message updateMessage(int id, String text){
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            System.out.println(text + " " + id);
+            String sql = "update message set message_text=? where message_id=?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            //write preparedStatement's setString method here.
+            preparedStatement.setString(1, text);
+            preparedStatement.setInt(2, id);
+
+            preparedStatement.executeUpdate();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            System.out.println("NOW: ");
+            if(rs.next()){
+                Message message = new Message(rs.getInt("message_id"), rs.getInt("posted_by"),
+                rs.getString("message_text"), rs.getLong("time_posted_epoch"));
+                System.out.println("POSTEDBY: " + rs.getInt("posted_by"));
+                return message;
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        System.out.println("Outside try.");
         return null;
     }
     

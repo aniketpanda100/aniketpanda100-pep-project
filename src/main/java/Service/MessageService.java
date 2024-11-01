@@ -71,5 +71,28 @@ public class MessageService {
     public Message getMessageById(int id) {
         return messageDAO.getMessageById(id);
     }
+
+    /**
+     * Use the MessageDAO to delete message by its id.
+     *
+     * @return message by id
+     */
+    public Message deleteMessageById(int id) {
+        return messageDAO.deleteMessageById(id);
+    }
+
+    /**
+     * Use the MessageDAO to update message by its id.
+     *
+     * @return updated message by id
+     */
+    public Message updateMessage(int id, String text) {
+        if (text == null || text.length() < 1 || text.length() > 255) {System.out.println("LEN"); return null;}
+        if (messageDAO.getMessageById(id) == null) {System.out.println("ID"); return null;}
+        System.out.println("Test");
+        Message msg = messageDAO.updateMessage(id, text);
+        System.out.println(msg);
+        return msg;
+    }
   
 }
