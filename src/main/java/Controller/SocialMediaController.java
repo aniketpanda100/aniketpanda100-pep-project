@@ -14,13 +14,15 @@ import Service.MessageService;
 
 /**
  * Endpoints and handlers for the controller. The endpoints needed can be
- * found in readme.md as well as the test cases. You should
- * refer to prior mini-project labs and lecture materials for guidance on how a controller may be built.
+ * found in readme.md as well as the test cases.
  */
 public class SocialMediaController {
     AccountService accountService;
     MessageService messageService;
 
+    /*
+     * Constructor instantiates service objects
+     */
     public SocialMediaController() {
         accountService = new AccountService();
         messageService = new MessageService();
@@ -55,6 +57,10 @@ public class SocialMediaController {
         context.json("sample text");
     }
 
+    /**
+     * Handler for posting accounts.
+     * @param context The Javalin Context object manages information about both the HTTP request and response.
+     */
     private void postAccountHandler(Context ctx) throws JsonProcessingException {
         Account account = ctx.bodyAsClass(Account.class);
         Account addedAccount = accountService.addAccount(account);
@@ -65,6 +71,10 @@ public class SocialMediaController {
         }
     }
 
+    /**
+     * Handler for account logins.
+     * @param context The Javalin Context object manages information about both the HTTP request and response.
+     */
     private void postLoginHandler(Context ctx) throws JsonProcessingException {
         Account account = ctx.bodyAsClass(Account.class);
         Account foundAccount = accountService.login(account);
@@ -75,6 +85,10 @@ public class SocialMediaController {
         }
     }
 
+    /**
+     * Handler for authenticating accounts.
+     * @param context The Javalin Context object manages information about both the HTTP request and response.
+     */
     private void postMessageHandler(Context ctx) throws JsonProcessingException {
         Message message = ctx.bodyAsClass(Message.class);
         Message addedMessage = messageService.addMessage(message);

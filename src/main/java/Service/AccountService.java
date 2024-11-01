@@ -3,6 +3,10 @@ package Service;
 import Model.Account;
 import DAO.AccountDAO;
 
+/*
+ * Service Layer for accounts. Sits between controller and DAOs and relays
+ * data back and forth.
+ */
 public class AccountService {
     private AccountDAO accountDAO;
     /**
@@ -38,6 +42,12 @@ public class AccountService {
         return accountDAO.insertAccount(account);
     }
 
+    /**
+     * Uses the AccountDAO to authenticate an account.
+     *
+     * @param account an account object.
+     * @return The account if the authentication is successful.
+     */
     public Account login(Account account) {
         Account foundAccount = accountDAO.authenticateAccount(account.getUsername(), account.getPassword());
         return foundAccount;

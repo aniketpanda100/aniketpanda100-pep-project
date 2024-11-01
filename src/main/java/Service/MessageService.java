@@ -8,10 +8,13 @@ import java.util.List;
 import DAO.AccountDAO;
 import DAO.MessageDAO;
 
+/*
+ * Service Layer for messages. Sits between controller and DAOs and relays
+ * data back and forth.
+ */
 public class MessageService {
     private MessageDAO messageDAO;
     private AccountDAO accountDAO;
-
 
     /**
      * no-args constructor for creating a new MessageService with a new MessageDAO.
@@ -25,7 +28,7 @@ public class MessageService {
      * Constructor for a MessageService when a MessageDAO is provided.
      * This is used for when a mock MessageDAO that exhibits mock behavior is used in the test cases.
      * This would allow the testing of MessageService independently of MessageDAO.
-     * @param messageDAO
+     * @param messageDAO messageDAO for this service to use
      */
     public MessageService(MessageDAO messageDAO){
         this.messageDAO = messageDAO;
@@ -57,6 +60,7 @@ public class MessageService {
     /**
      * Use the MessageDAO to retrieve all messages by a user.
      *
+     * @param id int id for user
      * @return all messages by a user
      */
     public List<Message> getAllUserMessages(int id) {
@@ -66,6 +70,7 @@ public class MessageService {
     /**
      * Use the MessageDAO to retrieve message by its id.
      *
+     * @param id int id for message
      * @return message by id
      */
     public Message getMessageById(int id) {
@@ -75,6 +80,7 @@ public class MessageService {
     /**
      * Use the MessageDAO to delete message by its id.
      *
+     * @param id int id for message
      * @return message by id
      */
     public Message deleteMessageById(int id) {
@@ -86,6 +92,7 @@ public class MessageService {
     /**
      * Use the MessageDAO to update message by its id.
      *
+     * @param id int id for message
      * @return updated message by id
      */
     public Message updateMessage(int id, String text) {
